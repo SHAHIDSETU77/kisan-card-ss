@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Card Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: #fff;
+            padding: 20px;
+            margin: 40px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #2b7a0b;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        button {
+            background: #2b7a0b;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #226d07;
+        }
+        #qrcode {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .success-msg {
+            text-align: center;
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kisan Card Registration</h1>
+        <form id="kisanForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="tel" id="mobile" placeholder="Mobile Number" required>
+            <input type="text" id="farmerId" placeholder="Farmer ID Number" required>
+            <input type="date" id="dob" required>
+            <button type="submit">Generate QR Code</button>
+        </form>
+        <p class="success-msg" id="successMsg"></p>
+        <div id="qrcode"></div>
+    </div>
+
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+    <script>
+        document.getElementById('kisanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const mobile = document.getElementById('mobile').value;
+            const farmerId = document.getElementById('farmerId').value;
+            const dob = document.getElementById('dob').value;
+
+            // Combine data
+            const data = `
+                Name: ${name}
+                Address: ${address}
+                Mobile: ${mobile}
+                Farmer ID: ${farmerId}
+                DOB: ${dob}
+            `;
+
+            // Clear previous QR
+            document.getElementById('qrcode').innerHTML = "";
+
+            // Generate QR
+            new QRCode(document.getElementById('qrcode'), {
+                text: data,
+                width: 200,
+                height: 200
+            });
+
+            document.getElementById('successMsg').textContent = "✅ QR Code Generated Successfully!";
+        });
+    </script>
+</body>
+</html>
